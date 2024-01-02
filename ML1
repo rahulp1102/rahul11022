@@ -5,22 +5,16 @@ np.random.seed(42)
 
 num_samples = 200
 
-square_footage = np.random.randint(1000, 3000, size=num_samples)
-num_bedrooms = np.random.randint(1, 5, size=num_samples)
-distance_to_park = np.random.uniform(0.1, 10.0, size=num_samples)
+df = pd.DataFrame({
+    'SquareFootage': np.random.randint(1000, 3000, size=num_samples),
+    'NumBedrooms': np.random.randint(1, 5, size=num_samples),
+    'DistanceToPark': np.random.uniform(0.1, 10.0, size=num_samples),
+    'HousePrice': np.random.randint(50000, 150000, size=num_samples)  # Just for demonstration, you can replace this with a lambda function if needed
+})
 
-house_price = 50000 + (square_footage * 30) + (num_bedrooms * 5000) - (distance_to_park * 2000) + np.random.normal(0, 10000, size=num_samples)
+df['HousePrice'] = df.apply(lambda row: row['HousePrice'] + (row['SquareFootage'] * 30) + (row['NumBedrooms'] * 5000) - (row['DistanceToPark'] * 2000) + np.random.normal(0, 10000), axis=1)
 
-data = {
-    'SquareFootage': square_footage,
-    'NumBedrooms': num_bedrooms,
-    'DistanceToPark': distance_to_park,
-    'HousePrice': house_price
-}
-
-df = pd.DataFrame(data)
-
-excel_file_path = 'house_prices_dataset.xlsx'
+excel_file_path = 'Mlprac1.xlsx'
 df.to_excel(excel_file_path, index=False)
 
 print(df.head())
